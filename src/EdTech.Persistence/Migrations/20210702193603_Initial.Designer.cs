@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EdTech.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210701214157_Initial")]
+    [Migration("20210702193603_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,18 +23,21 @@ namespace EdTech.Persistence.Migrations
 
             modelBuilder.Entity("EdTech.Core.Entities.Aluno", b =>
                 {
-                    b.Property<int>("RA")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("ra")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                    b.Property<string>("RA")
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
+                        .HasColumnName("ra");
 
                     b.Property<string>("Email")
-                        .HasColumnType("text")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("email");
 
                     b.Property<string>("Nome")
-                        .HasColumnType("text")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("nome");
 
                     b.HasKey("RA")
@@ -290,14 +293,14 @@ namespace EdTech.Persistence.Migrations
                 {
                     b.OwnsOne("EdTech.Core.Entities.Cpf", "Cpf", b1 =>
                         {
-                            b1.Property<int>("AlunoRA")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("integer")
-                                .HasColumnName("ra")
-                                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                            b1.Property<string>("AlunoRA")
+                                .HasColumnType("character varying(20)")
+                                .HasColumnName("ra");
 
                             b1.Property<string>("Codigo")
-                                .HasColumnType("text")
+                                .IsRequired()
+                                .HasMaxLength(14)
+                                .HasColumnType("character varying(14)")
                                 .HasColumnName("cpf_codigo");
 
                             b1.HasKey("AlunoRA")
@@ -310,7 +313,8 @@ namespace EdTech.Persistence.Migrations
                                 .HasConstraintName("fk_alunos_alunos_ra");
                         });
 
-                    b.Navigation("Cpf");
+                    b.Navigation("Cpf")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
