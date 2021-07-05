@@ -1,8 +1,6 @@
 ﻿using EdTech.Core.Constants;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Net.Http.Headers;
 using System;
 
 namespace EdTech.Extensions
@@ -21,9 +19,9 @@ namespace EdTech.Extensions
                 setupAction.AddDefaultPolicy(configurePolicy =>
                 {
                     configurePolicy
-                        .WithOrigins(allowedOrigins)
-                        .WithHeaders(HeaderNames.Authorization)
-                        .WithMethods(HttpMethods.Get, HttpMethods.Post, HttpMethods.Put, HttpMethods.Delete);
+                        .AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
                 });
             });
 
