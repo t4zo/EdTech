@@ -40,14 +40,15 @@ namespace EdTech.Persistence.Repositories
         public async Task<(bool, Aluno)> UpdateAsync(Aluno aluno, Aluno newAluno)
         {
             var updateEmailSucceeded = aluno.UpdateEmail(newAluno.Email);
-            if (updateEmailSucceeded)
+            if (!updateEmailSucceeded)
             {
-                aluno.Nome = newAluno.Nome;
-                await _context.SaveChangesAsync();
-                return (false, null);
+                return (updateEmailSucceeded, null);
             }
 
-            return (updateEmailSucceeded, newAluno);
+            aluno.Nome = newAluno.Nome;
+            await _context.SaveChangesAsync();
+
+            return (updateEmailSucceeded, aluno);
         }
 
         public async Task<Aluno> DeleteAsync(Aluno aluno)
