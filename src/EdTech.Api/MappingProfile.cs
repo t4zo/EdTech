@@ -1,4 +1,7 @@
 ﻿using AutoMapper;
+using EdTech.Api.Entities.Requests;
+using EdTech.Api.Entities.Responses;
+using EdTech.Core.Entities;
 
 namespace EdTech
 {
@@ -6,10 +9,12 @@ namespace EdTech
     {
         public MappingProfile()
         {
-            // CreateMap<Image, ImageResponse>().ReverseMap();
-            // CreateMap<Image, ImageRequest>().ReverseMap();
-            // CreateMap<ApplicationUser, UserResponse>().ReverseMap();
-            // CreateMap<UserResponse, SignInRequest>().ReverseMap();
+            CreateMap<Aluno, CreateAlunoRequest>().ReverseMap()
+                .ForPath(aluno => aluno.Cpf.Codigo,
+                        options => options.MapFrom(createAlunoRequest => createAlunoRequest.Cpf));
+
+            CreateMap<Aluno, AlunoResponse>().ReverseMap();
+            CreateMap<Aluno, UpdateAlunoRequest>().ReverseMap();
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace EdTech.Api.Entities.Requests
 {
-    public class AlunoRequest
+    public class UpdateAlunoRequest
     {
         public string RA { get; set; }
         public string Nome { get; set; }

@@ -1,8 +1,10 @@
+using EdTech.Core;
 using EdTech.Data;
 using EdTech.Extensions;
 using EdTech.i18n;
 using EdTech.Options;
 using EdTech.Persistence.Identity;
+using EdTech.Persistence.Repositories;
 using FluentValidation.AspNetCore;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Builder;
@@ -27,6 +29,8 @@ namespace EdTech
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IAlunosRepository, AlunosRepository>();
+
             services.AddCustomCors();
 
             services.AddDbContext<ApplicationDbContext>();

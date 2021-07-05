@@ -148,9 +148,9 @@ namespace EdTech.Core.Entities
             return false;
         }
 
-        public string Normalize()
+        public void Normalize()
         {
-            return Codigo.Replace(".", string.Empty).Replace("-", string.Empty);
+            Codigo = Codigo.Trim().Replace(".", string.Empty).Replace("-", string.Empty);
         }
 
         public override string ToString()
