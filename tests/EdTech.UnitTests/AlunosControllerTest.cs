@@ -109,6 +109,8 @@ namespace EdTech.UnitTests
 
             var aluno = _mapper.Map<Aluno>(createAlunoRequest);
 
+            Aluno fakeAlunoRepositoryResponse = null;
+            A.CallTo(() => _alunosRepository.GetByRAAsync(createAlunoRequest.RA)).Returns(Task.FromResult(fakeAlunoRepositoryResponse));
             A.CallTo(() => _alunosRepository.AddAsync(aluno)).Returns(Task.FromResult(aluno));
 
 
@@ -132,6 +134,30 @@ namespace EdTech.UnitTests
                 Email = "joaodasilva@gmail.com",
                 Cpf = "346.467.690-02"
             };
+
+
+            // Act
+            var actionResult = await _alunosController.Create(createAlunoRequest);
+
+
+            // Assert
+            Assert.IsType<BadRequestObjectResult>(actionResult.Result);
+        }
+
+        [Fact]
+        public async Task Create_ShouldReturnBadRequest_WhenRAExist()
+        {
+            // Arrange
+            var createAlunoRequest = new CreateAlunoRequest
+            {
+                RA = "RA115115",
+                Nome = "João da Silva",
+                Email = "joaodasilva@gmail.com",
+                Cpf = "346.467.690-02"
+            };
+
+            var aluno = _mapper.Map<Aluno>(createAlunoRequest);
+            A.CallTo(() => _alunosRepository.GetByRAAsync(createAlunoRequest.RA)).Returns(Task.FromResult(aluno));
 
 
             // Act

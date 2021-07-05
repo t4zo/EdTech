@@ -43,15 +43,21 @@ namespace EdTech.Api.Controllers
         public async Task<ActionResult<AlunoResponse>> Create(CreateAlunoRequest createAlunoRequest)
         {
             createAlunoRequest.NormalizeCpf();
-            var aluno = _mapper.Map<Aluno>(createAlunoRequest);
-            if (!aluno.Cpf.IsValid())
+            var alunoMapped = _mapper.Map<Aluno>(createAlunoRequest);
+            if (!alunoMapped.Cpf.IsValid())
             {
                 return BadRequest("Cpf inválido");
             }
 
-            await _alunosRepository.AddAsync(aluno);
+            var aluno = await _alunosRepository.GetByRAAsync(alunoMapped.RA);
+            if (aluno is not null)
+            {
+                return BadRequest("RA já cadastrada");
+            }
 
-            return _mapper.Map<AlunoResponse>(aluno);
+            await _alunosRepository.AddAsync(alunoMapped);
+
+            return _mapper.Map<AlunoResponse>(alunoMapped);
         }
 
         [HttpPut("{ra}")]
@@ -63,7 +69,7 @@ namespace EdTech.Api.Controllers
             }
 
             var aluno = await _alunosRepository.GetByRAAsync(ra);
-            if (aluno == null)
+            if (aluno is null)
             {
                 return NotFound();
             }
