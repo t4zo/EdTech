@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using EdTech.Persistence.Identity;
 using Microsoft.Extensions.Configuration;
+using EdTech.Core.Entities;
 
 namespace EdTech.Data
 {
@@ -15,6 +16,8 @@ namespace EdTech.Data
         {
             _configuration = configuration;
         }
+
+        public DbSet<Aluno> Alunos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

@@ -12,11 +12,10 @@ namespace EdTech.Persistence.Migrations
                 name: "alunos",
                 columns: table => new
                 {
-                    ra = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    nome = table.Column<string>(type: "text", nullable: true),
-                    email = table.Column<string>(type: "text", nullable: true),
-                    cpf_codigo = table.Column<string>(type: "text", nullable: true)
+                    ra = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
+                    nome = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    email = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    cpf_codigo = table.Column<string>(type: "character varying(14)", maxLength: 14, nullable: false)
                 },
                 constraints: table =>
                 {
